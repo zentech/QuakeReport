@@ -58,7 +58,7 @@ public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> {
         // Find the TextView in the list_item.xml layout with the ID magnitud
         TextView magTextView = (TextView) listItemView.findViewById(R.id.magnitud);
         // set this text on the magnitud TextView
-        magTextView.setText(currentEarthquake.getMagnitud());
+        magTextView.setText(Double.toString(currentEarthquake.getMagnitud()));
 
         // Find the TextView in the list_item_list.xml layout with the ID city
         TextView cityTextView = (TextView) listItemView.findViewById(R.id.city);
