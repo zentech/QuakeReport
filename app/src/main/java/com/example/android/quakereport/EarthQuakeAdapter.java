@@ -91,7 +91,7 @@ public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> {
         // Get the appropriate background color based on the current earthquake magnitude
         int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
 
-        //Log.v("magnitudeColor: ", Integer.toString(magnitudeColor));
+        Log.v("magnitudeColor: ", Double.toString(currentEarthquake.getMagnitude()));
 
         // Set the color on the magnitude circle
         magnitudeCircle.setColor(magnitudeColor);
@@ -129,6 +129,10 @@ public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> {
         return quakeAddress[size-2] + " " + quakeAddress[size-1];
     }
 
+    /**
+     * Return the color for the magnitude circle based on the intensity of the earthquake.
+     * @param magnitude of the earthquake
+     */
     private int getMagnitudeColor(double magnitude) {
         int magnitudeColorResourceId;
         int magnitudeFloor = (int) Math.floor(magnitude);
