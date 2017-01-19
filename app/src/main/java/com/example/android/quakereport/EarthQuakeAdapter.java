@@ -1,6 +1,8 @@
 package com.example.android.quakereport;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,10 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
+
+import org.w3c.dom.Text;
 
 /*
  *{@link EarthQuakeAdapter} is an {@link ArrayAdapter} is a custom adapter to provide a view for
@@ -56,9 +62,9 @@ public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> {
         EarthQuake currentEarthquake = getItem(position);
 
         // Find the TextView in the list_item.xml layout with the ID magnitud
-        TextView magTextView = (TextView) listItemView.findViewById(R.id.magnitud);
+        TextView magTextView = (TextView) listItemView.findViewById(R.id.magnitude);
         // set this text on the magnitud TextView
-        magTextView.setText(Double.toString(currentEarthquake.getMagnitud()));
+        magTextView.setText(Double.toString(currentEarthquake.getMagnitude()));
 
         // Find the TextView in the list_item_list.xml layout with the ID city
         TextView cityTextView = (TextView) listItemView.findViewById(R.id.city);
@@ -77,6 +83,18 @@ public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> {
         TextView hourTextView = (TextView) listItemView.findViewById(R.id.hour);
         //format time
         hourTextView.setText(formatTime(objDate));
+
+        // Set the proper background color on the magnitude circle.
+        // Fetch the background from the TextView, which is a GradientDrawable.
+        GradientDrawable magnitudeCircle = (GradientDrawable) magTextView.getBackground();
+
+        // Get the appropriate background color based on the current earthquake magnitude
+        int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
+
+        //Log.v("magnitudeColor: ", Integer.toString(magnitudeColor));
+
+        // Set the color on the magnitude circle
+        magnitudeCircle.setColor(magnitudeColor);
 
 
         // Return the whole list item layout (containing 3 TextViews)
@@ -109,5 +127,44 @@ public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> {
         String[] quakeAddress = city.split(" ");
         int size = quakeAddress.length;
         return quakeAddress[size-2] + " " + quakeAddress[size-1];
+    }
+
+    private int getMagnitudeColor(double magnitude) {
+        int magnitudeColorResourceId;
+        int magnitudeFloor = (int) Math.floor(magnitude);
+        switch (magnitudeFloor) {
+            case 0:
+            case 1:
+                magnitudeColorResourceId = R.color.magnitude1;
+                break;
+            case 2:
+                magnitudeColorResourceId = R.color.magnitude2;
+                break;
+            case 3:
+                magnitudeColorResourceId = R.color.magnitude3;
+                break;
+            case 4:
+                magnitudeColorResourceId = R.color.magnitude4;
+                break;
+            case 5:
+                magnitudeColorResourceId = R.color.magnitude5;
+                break;
+            case 6:
+                magnitudeColorResourceId = R.color.magnitude6;
+                break;
+            case 7:
+                magnitudeColorResourceId = R.color.magnitude7;
+                break;
+            case 8:
+                magnitudeColorResourceId = R.color.magnitude8;
+                break;
+            case 9:
+                magnitudeColorResourceId = R.color.magnitude9;
+                break;
+            default:
+                magnitudeColorResourceId = R.color.magnitude10plus;
+                break;
+        }
+        return ContextCompat.getColor(getContext(), magnitudeColorResourceId);
     }
 }
